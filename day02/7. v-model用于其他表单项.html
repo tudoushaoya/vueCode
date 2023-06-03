@@ -33,6 +33,12 @@
             <option>成都</option>
         </select>
         <p>{{ city }}</p>
+        <hr>
+        <!-- 一组复选框 -->
+        <input type="checkbox" v-model="hobby" value="足球">足球
+        <input type="checkbox" v-model="hobby" value="篮球">篮球
+        <input type="checkbox" v-model="hobby" value="排球">排球
+        <p>{{ hobby }}</p>
     </div>
     <script src="./vue.js"></script>
     <script>
@@ -42,10 +48,16 @@
                 msg: '',
                 checked: true,
                 gender: 'male',
-                city: '成都'
+                city: '成都',
+                hobby: ["篮球"]
             }
         })
     </script>
 </body>
 
 </html>
+
+<!-- 特殊情况：
+1. 单选 只要是一组v-model必须一样 并且要给表单项设置value值
+2. 复选框只有一个 值是布尔值
+3. 一组复选框 v-model必须一样，每个复选框都有value值，v-model绑定的是一个数组 -->
