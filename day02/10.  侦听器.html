@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <input type="text" v-model="msg">
+        <input type="text" v-model="obj.a">
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const vm = new Vue({
+            el: '.app',
+            data: {
+                msg: '',
+                obj: {
+                    a: "abc"
+                }
+            },
+            computed: {
+                msg1() {
+                    return this.msg + '123';
+                }
+            },
+            watch: {
+                msg1(newVal, oldVal) {
+                    console.log(newVal, oldVal);
+                },
+                'obj.a'(newVal, oldVal) {
+                    console.log(newVal, oldVal);
+                },
+            }
+        })
+      //   computed和watch的区别
+      // 1. computed叫计算属性，它侧重于通过对data中的多个数据进行计算得到一个结果 一般比如总数量总价格全选这些可以用计算属性来完成 计算属性默认情况下是只读的，如果想实现可读可以写可以用计算属性的完整写法get和set的写法
+      // 2. watch是侦听器，它一般是用于侦听data中数据的一个变化，然后变化之后我们可以去做一些事情，一般是异步的操作 比如ajax请求 一般情况下watch是可以写成异步的，但是如果写成异步的话，就不能使用箭头函数了，因为箭头函数没有this，而watch中的this指向的是Vue实例
+    </script>
+</body>
+
+</html>
