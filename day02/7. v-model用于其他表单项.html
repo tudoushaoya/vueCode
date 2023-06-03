@@ -20,6 +20,19 @@
         <!-- 复选框 -->
         <input type="checkbox" v-model="checked">
         <p>{{ checked }}</p>
+        <hr>
+        <!-- 单选框 -->
+        <input type="radio" v-model="gender" value="male">男
+        <input type="radio" v-model="gender" value="female">女
+        <p>{{ gender }}</p>
+        <hr>
+        <!-- 下拉框 -->
+        <select v-model="city">
+            <option>北京</option>
+            <option>上海</option>
+            <option>成都</option>
+        </select>
+        <p>{{ city }}</p>
     </div>
     <script src="./vue.js"></script>
     <script>
@@ -27,7 +40,9 @@
             el: '.app',
             data: {
                 msg: '',
-                checked: true
+                checked: true,
+                gender: 'male',
+                city: '成都'
             }
         })
     </script>
