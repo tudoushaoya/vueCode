@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        .bg {
+            background-color: #00f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="box bg"></div>
+        <div :class="a+' '+b"></div>
+        <div :class="[a,b]"></div>
+        <div :class="{box:true,bg:false}"></div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                a: "box",
+                b: "bg"
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>
