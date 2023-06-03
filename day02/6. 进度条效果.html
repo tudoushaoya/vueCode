@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .father {
+            width: 400px;
+            height: 30px;
+            background-color: greenyellow;
+            position: relative;
+            border-radius: 15px;
+            border: 4px solid greenyellow;
+        }
+
+        .son {
+            /* width: 20%; */
+            height: 30px;
+            background-color: skyblue;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 15px;
+            transition: all 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="father">
+            <div class="son" :style="{width:w}"></div>
+        </div>
+        <p>进度{{w}}</p>
+        <button @click="w='25%'">进度25%</button>
+        <button @click="w='50%'">进度50%</button>
+        <button @click="w='75%'">进度75%</button>
+        <button @click="w='100%'">进度100%</button>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                w: '20%'
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>
