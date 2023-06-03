@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 普通文本框 -->
+        <input type="text" v-model="msg">
+        <p>{{ msg }}</p>
+        <hr>
+        <!-- 多行文本框 -->
+        <textarea v-model="msg"></textarea>
+        <hr>
+        <!-- 复选框 -->
+        <input type="checkbox" v-model="checked">
+        <p>{{ checked }}</p>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                msg: '',
+                checked: true
+            }
+        })
+    </script>
+</body>
+
+</html>
