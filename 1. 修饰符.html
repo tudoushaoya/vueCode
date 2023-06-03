@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <input type="text" @keyup="fn">
+        <input type="text" @keyup.enter="fn1">
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                msg: 'hello world'
+            },
+            methods: {
+                fn() {
+                    if (event.keyCode === 13) {
+                        console.log('enter');
+                    }
+                },
+                fn1() {
+                    console.log('123');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

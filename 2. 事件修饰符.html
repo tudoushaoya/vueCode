@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .father {
+            padding: 40px;
+            width: 400px;
+            height: 400px;
+            box-sizing: border-box;
+            background-color: greenyellow;
+        }
+
+        .son {
+            width: 200px;
+            height: 200px;
+            background-color: #f00;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <a href="http://www.baidu.com" @click.prevent="fn">123</a>
+        <div class="father" @click="fn1">
+            <div class="son" @click.stop="fn2"></div>
+        </div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                fn(e) {
+                    // console.log('123');
+                },
+                fn1() {
+                    console.log('father');
+                },
+                fn2(e) {
+                    console.log('son');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <input type="text" v-model.number="a">
+        <input type="text" v-model.number="b">
+        <button @click="sum">求和</button>
+        <p>{{ total }}</p>
+        <hr>
+        <input type="text" v-model.trim="msg" @keyup.enter="fn">
+        <hr>
+        <input type="text" v-model.lazy="text">
+        <p>{{ text }}</p>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                a: 0,
+                b: 0,
+                total: 0,
+                msg: '',
+                text: ''
+            },
+            methods: {
+                sum() {
+                    this.total = this.a + this.b
+                },
+                fn() {
+                    console.log(this.msg);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
