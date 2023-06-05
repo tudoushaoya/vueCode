@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
         // 初始阶段beforeCreate创建前(vue是空的实例,没有数据) created创建后(有数据) beforeMount挂载前(数据没有渲染到页面) mounted挂载后(数据渲染到页面) beforeUpdate更新前(数据没有更新) updated更新后(数据更新了) beforeDestroy销毁前(数据还在) destroyed销毁后(数据没有了)
+        // ajax请求数据一般在created中
         const app = new Vue({
             el: '.app',
             data: {
