@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <input type="text" v-model="msg">
+        <p id="test">{{ msg }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        // 初始化阶段只会执行一次  更新阶段会反复的执行
+        const app = new Vue({
+            el: '.app',
+            data: {
+                msg: 'hello'
+            },
+
+
+            // 数据更新了，但是试图还是旧的
+            beforeUpdate() {
+                console.log('beforeUpdate')
+                console.log(document.getElementById('test').innerText)
+                console.log('--------------------------------------------------')
+            },
+
+
+            // 数据和视图都更新了
+            updated() {
+                console.log('updated')
+                console.log(document.getElementById('test').innerText)
+                console.log('--------------------------------------------------')
+            },
+            beforeDestroy() {
+                console.log('beforeDestroy')
+            },
+            destroyed() {
+                console.log('destroyed')
+            }
+        })
+        setTimeout(() => {
+            app.msg = 'world'
+        }, 1000)
+    </script>
+</body>
+
+</html>
