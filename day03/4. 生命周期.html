@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 选项对象
+        new Vue({
+            el: '',   // 和视图关联
+            data: {},       // 响应式数据
+            methods: {},    // 方法
+            computed: {},   // 计算属性   可以用来写总价  总数量  插值表达式台服炸了可以用计算属性代替  和methods的区别是有缓存
+            watch: {},      // 侦听器   需要侦听一个响应式数据变化的时候    一般适合异步操作
+            beforeCreate() { },
+            created() { },
+            beforeMount() { },
+            mounted() { },
+            beforeUpdate() { },
+            updated() { },
+            beforeDestroy() { },
+            destroyed() { },
+        })
+    </script>
+</body>
+
+</html>
