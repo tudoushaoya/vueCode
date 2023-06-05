@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <button @click="fn">自杀</button>
+        <input type="text" v-model="msg">
+        <p id="test">{{ msg }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                msg: 'hello',
+                tiemr: null
+            },
+            methods: {
+                fn() {
+                    this.$destroy()
+                }
+            },
+            created() {
+                const tiemr = setInterval(() => {
+                    console.log('定时器')
+                    document.onmousemove = () => {
+                        console.log('鼠标移动')
+                    }
+                }, 1000)
+            },
+            beforeDestroy() {
+                // beforeDestroy 我们一般在这里面清理定时器  移除DOM事件  类似一个收尾工作
+                console.log('销毁前')
+                clearInterval(this.tiemr)
+                document.onmousemove = null
+            },
+            destroyed() {
+                console.log('销毁后')
+            }
+        })
+    </script>
+</body>
+
+</html>

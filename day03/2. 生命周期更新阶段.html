@@ -37,16 +37,7 @@
                 console.log(document.getElementById('test').innerText)
                 console.log('--------------------------------------------------')
             },
-            beforeDestroy() {
-                console.log('beforeDestroy')
-            },
-            destroyed() {
-                console.log('destroyed')
-            }
         })
-        setTimeout(() => {
-            app.msg = 'world'
-        }, 1000)
     </script>
 </body>
 
