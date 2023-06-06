@@ -1,65 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="app">
-        <p>{{ msg }}</p>
+      <p>{{ msg }}</p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
-        // 初始阶段beforeCreate创建前(vue是空的实例,没有数据) created创建后(有数据) beforeMount挂载前(数据没有渲染到页面) mounted挂载后(数据渲染到页面) beforeUpdate更新前(数据没有更新) updated更新后(数据更新了) beforeDestroy销毁前(数据还在) destroyed销毁后(数据没有了)
-        // ajax请求数据一般在created中
-        const app = new Vue({
-            el: '.app',
-            data: {
-                msg: 'hello'
-            },
-            // vue是空的实例，这时候什么也没有，所以this.msg是undefined
-            beforeCreate() {
-                console.log('beforeCreate', this.msg);
-                console.log('-------------------------------------------')
-            },
-            // 数据准备好了，还没有和视图建立关联
-            created() {
-                console.log('created', this.msg);
-                console.log(this.$el)
-                console.log('-------------------------------------------')
-            },
-            // 数据和视图建立关联，但是还没有渲染到页面上
-            beforeMount() {
-                console.log('beforeMount', this.msg);
-                console.log(this.$el)
-                console.log(this.$el.innerHTML)
-                console.log('-------------------------------------------')
+      // 初始阶段beforeCreate创建前(vue是空的实例,没有数据) created创建后(有数据) beforeMount挂载前(数据没有渲染到页面) mounted挂载后(数据渲染到页面) beforeUpdate更新前(数据没有更新) updated更新后(数据更新了) beforeDestroy销毁前(数据还在) destroyed销毁后(数据没有了)
+      // ajax请求数据一般在created中
+      const app = new Vue({
+        el: '.app',
+        data: {
+          msg: 'hello',
+        },
+        // vue是空的实例，这时候什么也没有，所以this.msg是undefined
+        beforeCreate() {
+          console.log('beforeCreate', this.msg)
+          console.log('-------------------------------------------')
+        },
+        // 数据准备好了，还没有和视图建立关联
+        created() {
+          console.log('created', this.msg)
+          console.log(this.$el)
+          console.log('-------------------------------------------')
+        },
+        // 数据和视图建立关联，但是还没有渲染到页面上
+        beforeMount() {
+          console.log('beforeMount', this.msg)
+          console.log(this.$el)
+          console.log(this.$el.innerHTML)
+          console.log('-------------------------------------------')
+        },
+        mounted() {
+          console.log('mounted', this.msg)
+          console.log(this.$el)
+          console.log(this.$el.innerHTML)
+          console.log('-------------------------------------------')
+        },
+        beforeUpdate() {
+          console.log('beforeUpdate', this.a, this.b, this.c)
+        },
+        updated() {
+          console.log('updated', this.a, this.b, this.c)
+        },
 
-            },
-            mounted() {
-                console.log('mounted', this.msg);
-                console.log(this.$el)
-                console.log(this.$el.innerHTML)
-                console.log('-------------------------------------------')
-            },
-            beforeUpdate() {
-                console.log('beforeUpdate', this.a, this.b, this.c);
-            },
-            updated() {
-                console.log('updated', this.a, this.b, this.c);
-            },
-            beforeDestroy() {
-                console.log('beforeDestroy', this.a, this.b, this.c);
-            },
-            destroyed() {
-                console.log('destroyed', this.a, this.b, this.c);
-            }
-        })
+        beforeDestroy() {
+          console.log('beforeDestroy', this.a, this.b, this.c)
+        },
+        destroyed() {
+          console.log('destroyed', this.a, this.b, this.c)
+        },
+      })
     </script>
-</body>
-
+  </body>
 </html>
