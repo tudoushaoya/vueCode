@@ -1,17 +1,24 @@
 <template>
   <div>
-    <input type="text" v-focus />
+    <ul>
+      <li v-for="item in list" :key="item.id">
+        {{ item.title }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-// 自定义指令有两种，一种是全局指令，一种是局部指令，全局指令在main.js中定义，局部指令在组件中定义
+import axios from 'axios'
 export default {
-  // mounted() {
-  //   this.$refs.myinput.focus()
-  // },
+  async created() {
+    const res = await axios('http://hmajax.itheima.net/api/news')
+    this.list = res.data.data
+  },
   data() {
-    return {}
+    return {
+      list: [],
+    }
   },
   methods: {},
 }
