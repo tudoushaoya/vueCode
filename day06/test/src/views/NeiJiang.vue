@@ -1,14 +1,14 @@
 <template>
-  <div></div>
+  <p>内江</p>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {}
   },
-  methods: {},
+  methods: {}
 }
 </script>
 
-<style scoped></style>
+<style scoped lang='less'></style>

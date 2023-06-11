@@ -1,14 +1,14 @@
 <template>
-  <div></div>
+  <div>404</div>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {}
   },
-  methods: {},
+  methods: {}
 }
 </script>
 
-<style scoped></style>
+<style scoped lang='less'></style>
