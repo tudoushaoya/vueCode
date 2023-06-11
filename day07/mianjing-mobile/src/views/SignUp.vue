@@ -43,6 +43,7 @@ export default {
       const res = await userSignup(values)
       console.log(res)
       this.$toast.success('注册成功')
+      this.$router.push('/login')
     }
   }
 }
