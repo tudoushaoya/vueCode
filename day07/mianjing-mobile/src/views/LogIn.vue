@@ -18,7 +18,7 @@
         :rules="[{ required: true, message: '请填写密码' },{pattern: /\w{6,}/, message: '长度必须是6个字符以上'}]"
       />
       <div style="margin: 16px">
-        <van-button  block type="primary" native-type="submit"
+        <van-button  block type="info" native-type="submit"
           >登录</van-button
         >
       </div>
