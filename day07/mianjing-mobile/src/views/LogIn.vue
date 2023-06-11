@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="面经注册" />
+    <van-nav-bar title="面经登录" />
     <van-form @submit="onSubmit">
       <van-field
         v-model="username"
@@ -19,18 +19,18 @@
       />
       <div style="margin: 16px">
         <van-button  block type="primary" native-type="submit"
-          >注册</van-button
+          >登录</van-button
         >
       </div>
       <div class="link">
-        <router-link to="/login">有账号，去登陆</router-link>
+        <router-link to="/signup">没账号？去注册</router-link>
       </div>
     </van-form>
   </div>
 </template>
 
 <script>
-import { userSignup } from '@/api/user'
+import { userLogin } from '@/api/user'
 export default {
   data () {
     return {
@@ -40,9 +40,9 @@ export default {
   },
   methods: {
     async onSubmit (values) {
-      const res = await userSignup(values)
+      const res = await userLogin(values)
       console.log(res)
-      this.$toast.success('注册成功')
+      this.$toast.success('登录成功')
     }
   }
 }
@@ -50,7 +50,7 @@ export default {
 
 <style scoped lang='less'>
 .link {
-  text-align: right;
+  text-align: left;
   margin: 16px;
 }
 </style>
