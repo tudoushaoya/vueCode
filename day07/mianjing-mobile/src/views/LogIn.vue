@@ -31,6 +31,7 @@
 
 <script>
 import { userLogin } from '@/api/user'
+import { setToken } from '@/utils/storage'
 export default {
   data () {
     return {
@@ -41,8 +42,10 @@ export default {
   methods: {
     async onSubmit (values) {
       const res = await userLogin(values)
-      console.log(res)
+      console.log(res.data.data.token)
+      setToken(res.data.data.token)
       this.$toast.success('登录成功')
+      this.$router.push('/article')
     }
   }
 }
