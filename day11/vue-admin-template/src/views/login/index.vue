@@ -38,8 +38,8 @@ export default {
     }
     return {
       loginForm: {
-        mobile: '13800000002',
-        password: 'hm#qd@23!',
+        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
+        password: process.env.NODE_ENV === 'development' ? 'hm#qd@23!' : '',
         isAgree: false
       },
       loginFormRules: {
@@ -86,6 +86,7 @@ export default {
         const obj = { ...this.loginForm }
         delete obj.isAgree
         await this.$store.dispatch('user/login', obj)
+        this.$router.push('/')
       } catch (error) {
         console.log(error)
       }

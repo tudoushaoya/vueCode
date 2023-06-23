@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const arr = [
+        { id: 1, name: "家电", pid: "" },
+        { id: 2, name: "家具", pid: "" },
+        { id: 3, name: "电视", pid: 1 },
+        { id: 4, name: "小米电视", pid: 3 },
+        { id: 5, name: "熊猫电视", pid: 3 },
+      ];
+
+      // function transListToTree(arr,pid){
+      //     const list = []
+      //     arr.forEach(item => {
+      //         if(item.pid === pid){
+      //             list.push(item)
+      //             const list1 = transListToTree(arr,item.id)
+      //             if(list1.length > 0){
+      //                 item.children = list1
+      //             }
+      //         }
+      //     })
+      //     return list
+      // }
+      // console.log(transListToTree(arr,''))
+      // const transListToTree = (arr, pid = "") =>
+      //   arr
+      //     .filter(item => item.pid === pid)
+      //     .map(item => ({
+      //       ...item,
+      //       children: transListToTree(arr, item.id),
+      //     }));
+
+      // console.log(transListToTree(arr));
+      // const list1 = []
+      // 当只有三四层的时候，这样写没什么问题，但是如果有更多层的话，就会很麻烦
+      // 如果有很多层就要用递归
+      // arr.forEach(item => {
+      //     if(item.pid === ''){
+      //         list1.push(item)
+      //         const list2 = []
+      //         arr.forEach(item2 => {
+      //             if(item2.pid === item.id){
+      //                 list2.push(item2)
+      //                 const list3 = []
+      //                 arr.forEach(item3 => {
+      //                     if(item3.pid === item2.id){
+      //                         list3.push(item3)
+      //                     }
+      //                 })
+      //                 if(list3.length > 0){
+      //                     item2.children = list3
+      //                 }
+      //             }
+      //         })
+      //         if(list2.length > 0){
+      //             item.children = list2
+      //         }
+      //     }
+      // })
+      // console.log(list1)
+    </script>
+  </body>
+</html>
