@@ -33,7 +33,13 @@
         </template>
       </el-tree>
     </div>
-    <AddDept v-if="dialogVisible" :visible.sync="dialogVisible" :pid="pid" @updateDept="getDepartments" />
+    <AddDept
+      v-if="dialogVisible"
+      :is-edit="isEdit"
+      :visible.sync="dialogVisible"
+      :pid="pid"
+      @updateDept="getDepartments"
+    />
   </div>
 </template>
 <script>
@@ -49,7 +55,8 @@ export default {
     return {
       departments: [],
       dialogVisible: false,
-      pid: null
+      pid: null,
+      isEdit: false
     }
   },
   async created() {
@@ -64,9 +71,11 @@ export default {
     async handleCommand(type, id) {
       this.pid = id
       if (type === 'add') {
+        this.isEdit = false
         this.dialogVisible = true
       } else if (type === 'edit') {
-        console.log('编辑')
+        this.dialogVisible = true
+        this.isEdit = true
       } else {
         try {
           await this.$confirm('此操作将永久删除该部门, 是否继续?', '提示', {

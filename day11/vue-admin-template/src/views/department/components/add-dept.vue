@@ -1,11 +1,16 @@
 <template>
   <el-dialog
     ref="addFormRef"
-    title="新增部门"
+    :title="title"
     :visible="visible"
     @close="$emit('update:visible', false)"
   >
-    <el-form label-width="100px" :model="addForm" :rules="addFormRules">
+    <el-form
+      v-loading="loading"
+      label-width="100px"
+      :model="addForm"
+      :rules="addFormRules"
+    >
       <el-form-item prop="name" label="部门名称">
         <el-input v-model="addForm.name" placeholder="2-10个字符" />
       </el-form-item>
@@ -38,7 +43,11 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="mini" @click="handleConfirm">确认</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleConfirm"
+        >确认</el-button>
         <el-button size="mini" @click="close">取消</el-button>
       </el-form-item>
     </el-form>
@@ -46,7 +55,13 @@
 </template>
 
 <script>
-import { getDepartmentDetail, getDepartments, addDepartments } from '@/api/department'
+import {
+  getDepartmentDetail,
+  getDepartments,
+  addDepartments,
+  getDepartmentInfo,
+  updateDepartments
+} from '@/api/department'
 export default {
   props: {
     visible: {
@@ -56,6 +71,10 @@ export default {
     pid: {
       type: Number,
       required: true
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -80,11 +99,20 @@ export default {
           {
             validator: (rule, value, callback) => {
               // 校验部门名称是否重复
-              return this.depts
-                .filter((item) => item.pid === this.pid)
-                .some((item) => item.name === value)
-                ? callback(new Error('部门名称重复'))
-                : callback()
+              if (this.isEdit) {
+                const arr = this.depts
+                  .filter((item) => item.pid === this.addForm.pid && item.id !== this.addForm.id)
+                  .filter((item) => item.id !== this.addForm.id)
+                return arr.some((item) => item.name === value)
+                  ? callback(new Error('部门名称重复'))
+                  : callback()
+              } else {
+                return this.depts
+                  .filter((item) => item.pid === this.pid)
+                  .some((item) => item.name === value)
+                  ? callback(new Error('部门名称重复'))
+                  : callback()
+              }
             },
             trigger: 'blur'
           }
@@ -101,11 +129,20 @@ export default {
           {
             validator: (rule, value, callback) => {
               // 校验部门编码是否重复
-              return this.depts
-                .filter((item) => item.pid === this.pid)
-                .some((item) => item.code === value)
-                ? callback(new Error('部门编码重复'))
-                : callback()
+              if (this.isEdit) {
+                const arr = this.depts
+                  .filter((item) => item.pid === this.addForm.pid && item.id !== this.addForm.id)
+                  .filter((item) => item.id !== this.addForm.id)
+                return arr.some((item) => item.code === value)
+                  ? callback(new Error('部门编码重复'))
+                  : callback()
+              } else {
+                return this.depts
+                  .filter((item) => item.pid === this.pid)
+                  .some((item) => item.code === value)
+                  ? callback(new Error('部门编码重复'))
+                  : callback()
+              }
             },
             trigger: 'blur'
           }
@@ -123,10 +160,20 @@ export default {
           }
         ]
       },
-      depts: []
+      depts: [],
+      loading: true
+    }
+  },
+  computed: {
+    title() {
+      return this.isEdit ? '编辑部门' : '新增部门'
     }
   },
   async created() {
+    if (this.isEdit) {
+      this.addForm = await getDepartmentInfo(this.pid)
+    }
+    this.loading = false
     await this.getDepartmentDetail()
     this.depts = await getDepartments()
   },
@@ -135,15 +182,24 @@ export default {
       this.managers = await getDepartmentDetail()
     },
     async handleConfirm() {
-      this.addForm.pid = this.pid
-      // await this.$refs.addFormRef.validate()
-      await addDepartments(this.addForm)
-      this.$message.success('添加成功')
-      this.$emit('update:visible', false)
-      this.$emit('updateDept')
+      if (this.isEdit) {
+        await this.handleUpdate()
+      } else {
+        this.addForm.pid = this.pid
+        await addDepartments(this.addForm)
+        this.$message.success('添加成功')
+        this.$emit('update:visible', false)
+        this.$emit('updateDept')
+      }
     },
     close() {
       this.$emit('update:visible', false)
+    },
+    async handleUpdate() {
+      await updateDepartments(this.addForm)
+      this.$message.success('修改成功')
+      this.$emit('update:visible', false)
+      this.$emit('updateDept')
     }
   }
 }

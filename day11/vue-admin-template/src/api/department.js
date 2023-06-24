@@ -29,3 +29,20 @@ export function getDepartmentDetail() {
     url: `/sys/user/simple`
   })
 }
+
+// 获取部门详情
+export function getDepartmentInfo(id) {
+  return request({
+    method: 'GET',
+    url: `/company/department/${id}`
+  })
+}
+
+// 编辑部门
+export function updateDepartments(data) {
+  return request({
+    method: 'PUT',
+    url: `/company/department/${data.id}`,
+    data
+  })
+}
