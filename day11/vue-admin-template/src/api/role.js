@@ -25,3 +25,20 @@ export function addRole(data) {
     data
   })
 }
+
+// 获取角色详情
+export function getRoleDetail(id) {
+  return requeset({
+    method: 'GET',
+    url: `/sys/role/${id}`
+  })
+}
+
+// 给角色分配权限
+export function assignPerm(data) {
+  return requeset({
+    method: 'PUT',
+    url: '/sys/role/assignPrem',
+    data
+  })
+}

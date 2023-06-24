@@ -13,7 +13,11 @@
           <el-table-column prop="description" label="描述" />
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button type="text" size="mini">分配权限</el-button>
+              <el-button
+                type="text"
+                size="mini"
+                @click="assignPerm(scope.row.id)"
+              >分配权限</el-button>
               <el-button type="text" size="mini">编辑</el-button>
               &nbsp;&nbsp;
               <el-popconfirm
@@ -46,11 +50,7 @@
       </el-card>
     </div>
     <el-dialog :visible.sync="dialogVisible" title="新增角色">
-      <el-form
-        label-width="80px"
-        :model="addForm"
-        :rules="addFormRules"
-      >
+      <el-form label-width="80px" :model="addForm" :rules="addFormRules">
         <el-form-item prop="name" label="角色名称">
           <el-input v-model="addForm.name" />
         </el-form-item>
@@ -65,26 +65,55 @@
           <el-input v-model="addForm.description" type="textarea" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="addRole">确定</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            @click="addRole"
+          >确定</el-button>
           <el-button size="mini">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
+    <el-dialog :visible.sync="dialogVisible2" title="分配权限">
+      <el-tree
+        ref="parmissionTree"
+        :props="{ label: 'name' }"
+        :data="rolesTree"
+        show-checkbox
+        default-expand-all
+        node-key="id"
+        :default-checked-keys="permIds"
+      />
+      <template #footer>
+        <el-button type="primary" @click="assignPermission">确认</el-button>
+        <el-button @click="dialogVisible2 = false">取消</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { getRoleList, delRole, addRole } from '@/api/role'
+import {
+  getRoleList,
+  delRole,
+  addRole,
+  getRoleDetail,
+  assignPerm
+} from '@/api/role'
+import { getPermissionList } from '@/api/permission'
+import { transListToTree } from '@/utils'
 export default {
   name: 'Role',
   data() {
     return {
       roles: [],
+      rolesTree: [],
       roleParams: {
         page: 1,
         pagesize: 5
       },
       total: null,
       dialogVisible: false,
+      dialogVisible2: false,
       value: true,
       addForm: {
         name: '',
@@ -94,16 +123,26 @@ export default {
       addFormRules: {
         name: [
           { required: true, message: '请输入角色名称', trigger: 'blur' },
-          { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
+          {
+            min: 2,
+            max: 10,
+            message: '长度在 2 到 10 个字符',
+            trigger: 'blur'
+          }
         ],
         description: [
           { required: true, message: '请输入角色描述', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+          {
+            min: 2,
+            max: 20,
+            message: '长度在 2 到 20 个字符',
+            trigger: 'blur'
+          }
         ],
-        state: [
-          { required: true, message: '请选择是否启用', trigger: 'blur' }
-        ]
-      }
+        state: [{ required: true, message: '请选择是否启用', trigger: 'blur' }]
+      },
+      permIds: [],
+      id: null
     }
   },
   created() {
@@ -113,7 +152,6 @@ export default {
     async getRoles() {
       const res = await getRoleList(this.roleParams)
       this.roles = res.rows
-      console.log(this.roles)
       this.total = res.total
     },
     handlePageChange(page) {
@@ -142,7 +180,6 @@ export default {
         type: 'success',
         message: '添加成功'
       })
-      console.log(this.addForm)
       this.addForm = {
         name: '',
         description: '',
@@ -150,6 +187,23 @@ export default {
       }
       this.dialogVisible = false
       this.getRoles()
+    },
+    async assignPerm(id) {
+      const res = await getPermissionList()
+      this.id = id
+      this.rolesTree = transListToTree(res, 0)
+      const res2 = await getRoleDetail(id)
+      this.permIds = res2.permIds
+      this.dialogVisible2 = true
+    },
+    async assignPermission() {
+      const permIds = this.$refs.parmissionTree.getCheckedKeys()
+      await assignPerm({ id: this.id, permIds })
+      this.$message({
+        type: 'success',
+        message: '分配权限成功'
+      })
+      this.dialogVisible2 = false
     }
   }
 }
