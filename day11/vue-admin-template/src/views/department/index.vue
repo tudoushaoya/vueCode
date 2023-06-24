@@ -33,7 +33,7 @@
         </template>
       </el-tree>
     </div>
-    <AddDept v-if="dialogVisible" :visible.sync="dialogVisible" :pid="pid" />
+    <AddDept v-if="dialogVisible" :visible.sync="dialogVisible" :pid="pid" @updateDept="getDepartments" />
   </div>
 </template>
 <script>
@@ -53,10 +53,10 @@ export default {
     }
   },
   async created() {
-    await this.getDepartment()
+    await this.getDepartments()
   },
   methods: {
-    async getDepartment() {
+    async getDepartments() {
       const res = await getDepartments()
       console.log(res)
       this.departments = transListToTree(res, 0)
@@ -81,9 +81,6 @@ export default {
           console.log(error)
         }
       }
-    },
-    close() {
-      this.dialogVisible = false
     }
   }
 }

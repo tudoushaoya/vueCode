@@ -17,6 +17,7 @@
           v-model="addForm.managerId"
           style="width: 100%"
           placeholder="请选择负责人"
+          clearable
         >
           <el-option
             v-for="item in managers"
@@ -37,15 +38,15 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="mini">确认</el-button>
-        <el-button size="mini">取消</el-button>
+        <el-button type="primary" size="mini" @click="handleConfirm">确认</el-button>
+        <el-button size="mini" @click="close">取消</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
 </template>
 
 <script>
-import { getDepartmentDetail, getDepartments } from '@/api/department'
+import { getDepartmentDetail, getDepartments, addDepartments } from '@/api/department'
 export default {
   props: {
     visible: {
@@ -132,6 +133,17 @@ export default {
   methods: {
     async getDepartmentDetail() {
       this.managers = await getDepartmentDetail()
+    },
+    async handleConfirm() {
+      this.addForm.pid = this.pid
+      // await this.$refs.addFormRef.validate()
+      await addDepartments(this.addForm)
+      this.$message.success('添加成功')
+      this.$emit('update:visible', false)
+      this.$emit('updateDept')
+    },
+    close() {
+      this.$emit('update:visible', false)
     }
   }
 }
