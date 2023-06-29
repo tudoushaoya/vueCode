@@ -42,3 +42,12 @@ export function assignPerm(data) {
     data
   })
 }
+
+// 编辑角色
+export function updateRole(data) {
+  return requeset({
+    method: 'PUT',
+    url: `/sys/role/${data.id}`,
+    data
+  })
+}

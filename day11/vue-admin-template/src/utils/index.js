@@ -118,24 +118,24 @@ export function param2Obj(url) {
   return obj
 }
 // 将数组转换成树型结构
-export const transListToTree = (arr, pid = '') =>
-  arr
-    .filter((item) => item.pid === pid)
-    .map((item) => ({
-      ...item,
-      children: transListToTree(arr, item.id)
-    }))
-// export function transListToTree(arr, pid) {
-//   const list = []
-//   arr.forEach(item => {
-//     if (item.pid === pid) {
-//       list.push(item)
-//       // 找item的子项
-//       const list1 = transListToTree(arr, item.id)
-//       if (list1.length > 0) {
-//         item.children = list1
-//       }
-//     }
-//   })
-//   return list
-// }
+// export const transListToTree = (arr, pid = '') =>
+//   arr
+//     .filter((item) => item.pid === pid)
+//     .map((item) => ({
+//       ...item,
+//       children: transListToTree(arr, item.id)
+//     }))
+export function transListToTree(arr, pid) {
+  const list = []
+  arr.forEach(item => {
+    if (item.pid === pid) {
+      list.push(item)
+      // 找item的子项
+      const list1 = transListToTree(arr, item.id)
+      if (list1.length > 0) {
+        item.children = list1
+      }
+    }
+  })
+  return list
+}

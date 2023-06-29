@@ -33,6 +33,7 @@ import Layout from '@/layout'
 
 // 只有当路由规则有hidden:false（不写默认就是false),并且有meta,meta中有title以及icon才会显示
 
+// 静态路由
 export const constantRoutes = [
   {
     path: '/login',
@@ -67,6 +68,12 @@ export const constantRoutes = [
     }]
   },
 
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+// 动态路由
+export const asyncRoutes = [
   {
     path: '/department',
     component: () => import('@/layout'),
@@ -119,7 +126,17 @@ export const constantRoutes = [
         title: '员工',
         icon: 'people'
       }
-    }]
+    },
+    {
+      path: 'detail/:id?',
+      name: 'detail',
+      component: () => import('@/views/employee/detail'),
+      hidden: true,
+      meta: {
+        title: '员工详情'
+      }
+    }
+    ]
   },
   {
     path: '/permission',
@@ -172,9 +189,7 @@ export const constantRoutes = [
         icon: 'table'
       }
     }]
-  },
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
 const createRouter = () => new Router({

@@ -4,36 +4,79 @@
       <el-card>
         <el-button type="primary" size="mini" @click="add">添加角色</el-button>
         <el-table :data="roles" border style="margin-top: 30px">
-          <el-table-column prop="name" label="角色" />
-          <el-table-column prop="state" label="启用">
+          <el-table-column prop="name" label="角色">
             <template #default="scope">
-              {{ scope.row.state ? "已启用" : "未启用" }}
+              <el-input
+                v-if="scope.row.isEdit"
+                v-model="scope.row.name"
+                size="mini"
+              />
+              <span v-else>{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="description" label="描述" />
+          <el-table-column prop="state" label="启用">
+            <template #default="scope">
+              <el-switch
+                v-if="scope.row.isEdit"
+                v-model="scope.row.state"
+                :active-value="1"
+                :inactive-value="0"
+              />
+              <span v-else>{{ scope.row.state ? "已启用" : "未启用" }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="description" label="描述">
+            <template #default="scope">
+              <el-input
+                v-if="scope.row.isEdit"
+                v-model="scope.row.description"
+                type="textarea"
+              />
+              <template v-else>
+                {{ scope.row.description }}
+              </template>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button
-                type="text"
-                size="mini"
-                @click="assignPerm(scope.row.id)"
-              >分配权限</el-button>
-              <el-button type="text" size="mini">编辑</el-button>
-              &nbsp;&nbsp;
-              <el-popconfirm
-                icon="el-icon-info"
-                icon-color="red"
-                title="确定要删除吗？"
-                @onConfirm="handleDel(scope.row.id)"
-              >
-                <template #reference>
-                  <el-button
-                    slot="reference"
-                    type="text"
-                    size="mini"
-                  >删除</el-button>
-                </template>
-              </el-popconfirm>
+              <template v-if="scope.row.isEdit">
+                <el-button
+                  size="mini"
+                  type="primary"
+                  @click="btnEdit(scope.row)"
+                >确定</el-button>
+                <el-button
+                  size="mini"
+                  @click="btnCancel(scope.row)"
+                >取消</el-button>
+              </template>
+              <template v-else>
+                <el-button
+                  type="text"
+                  size="mini"
+                  @click="assignPerm(scope.row.id)"
+                >分配权限</el-button>
+                <el-button
+                  type="text"
+                  size="mini"
+                  @click="scope.row.isEdit = true"
+                >编辑</el-button>
+                &nbsp;&nbsp;
+                <el-popconfirm
+                  icon="el-icon-info"
+                  icon-color="red"
+                  title="确定要删除吗？"
+                  @onConfirm="handleDel(scope.row.id)"
+                >
+                  <template #reference>
+                    <el-button
+                      slot="reference"
+                      type="text"
+                      size="mini"
+                    >删除</el-button>
+                  </template>
+                </el-popconfirm>
+              </template>
             </template>
           </el-table-column>
         </el-table>
@@ -97,7 +140,8 @@ import {
   delRole,
   addRole,
   getRoleDetail,
-  assignPerm
+  assignPerm,
+  updateRole
 } from '@/api/role'
 import { getPermissionList } from '@/api/permission'
 import { transListToTree } from '@/utils'
@@ -151,6 +195,10 @@ export default {
   methods: {
     async getRoles() {
       const res = await getRoleList(this.roleParams)
+      res.rows.forEach((item) => {
+        item.isEdit = false
+        item.obj = { ...item }
+      })
       this.roles = res.rows
       this.total = res.total
     },
@@ -204,6 +252,17 @@ export default {
         message: '分配权限成功'
       })
       this.dialogVisible2 = false
+    },
+    btnCancel(row) {
+      row.name = row.obj.name
+      row.description = row.obj.description
+      row.state = row.obj.state
+      row.isEdit = false
+    },
+    async btnEdit(row) {
+      await updateRole(row)
+      // eslint-disable-next-line require-atomic-updates
+      row.isEdit = false
     }
   }
 }

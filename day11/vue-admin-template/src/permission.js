@@ -17,6 +17,9 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
+      if (!store.getters.name) {
+        await store.dispatch('user/getInfo')
+      }
       next()
     } else {
       next(`/login?redirect=${to.path}`)

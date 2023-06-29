@@ -36,6 +36,7 @@ export default {
       const res = await getInfo()
       console.log(res)
       context.commit('setUserInfo', res)
+      return res
     },
     logout(context) {
       context.commit('setToken', '')
