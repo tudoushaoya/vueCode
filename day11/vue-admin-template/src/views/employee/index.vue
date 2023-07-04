@@ -61,7 +61,7 @@
               <template #default="scope">
                 <el-button type="text" @click="$router.push(`/employee/detail/${scope.row.id}`)">查看</el-button>
                 <el-button type="text" @click="showRole(scope.row.id)">角色</el-button>
-                <el-button type="text">删除</el-button>
+                <el-button v-permission="'user_delete'" type="text">删除</el-button>
               </template>
             </el-table-column>
           </el-table>

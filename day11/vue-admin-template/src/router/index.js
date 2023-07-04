@@ -33,7 +33,6 @@ import Layout from '@/layout'
 
 // 只有当路由规则有hidden:false（不写默认就是false),并且有meta,meta中有title以及icon才会显示
 
-// 静态路由
 export const constantRoutes = [
   {
     path: '/login',
@@ -45,7 +44,6 @@ export const constantRoutes = [
     //   icon: 'eye'
     // }
   },
-
   {
     path: '/404',
     component: () => import('@/views/404')
@@ -55,7 +53,6 @@ export const constantRoutes = [
     //   icon: 'eye-open'
     // }
   },
-
   {
     path: '/',
     component: Layout,
@@ -66,21 +63,20 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
-  },
+  }
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
-
-// 动态路由
+// 用来动态添加路由规则的
 export const asyncRoutes = [
   {
     path: '/department',
+    name: 'department', // 暂时没有用 将来和动态筛选当前用户有哪些路由规则是有关系
     component: () => import('@/layout'),
     children: [
       {
         path: '',
-        name: 'department', // 暂时没有用 将来和动态筛选当前用户有哪些路由规则是有关系
         component: () => import('@/views/department'),
         meta: {
           title: '组织',
@@ -91,10 +87,10 @@ export const asyncRoutes = [
   },
   {
     path: '/approval',
+    name: 'approval',
     component: () => import('@/layout'),
     children: [{
       path: '',
-      name: 'approval',
       component: () => import('@/views/approval'),
       meta: {
         title: '审批',
@@ -104,10 +100,10 @@ export const asyncRoutes = [
   },
   {
     path: '/attendance',
+    name: 'attendance',
     component: Layout,
     children: [{
       path: '',
-      name: 'attendance',
       component: () => import('@/views/attendance'),
       meta: {
         title: '考勤',
@@ -117,10 +113,10 @@ export const asyncRoutes = [
   },
   {
     path: '/employee',
+    name: 'employee',
     component: Layout,
     children: [{
       path: '',
-      name: 'employee',
       component: () => import('@/views/employee'),
       meta: {
         title: '员工',
@@ -131,19 +127,16 @@ export const asyncRoutes = [
       path: 'detail/:id?',
       name: 'detail',
       component: () => import('@/views/employee/detail'),
-      hidden: true,
-      meta: {
-        title: '员工详情'
-      }
+      hidden: true
     }
     ]
   },
   {
     path: '/permission',
+    name: 'permission',
     component: Layout,
     children: [{
       path: '',
-      name: 'permission',
       component: () => import('@/views/permission'),
       meta: {
         title: '权限',
@@ -153,10 +146,10 @@ export const asyncRoutes = [
   },
   {
     path: '/role',
+    name: 'role',
     component: Layout,
     children: [{
       path: '',
-      name: 'role',
       component: () => import('@/views/role'),
       meta: {
         title: '角色',
@@ -166,10 +159,10 @@ export const asyncRoutes = [
   },
   {
     path: '/salary',
+    name: 'salary',
     component: Layout,
     children: [{
       path: '',
-      name: 'salary',
       component: () => import('@/views/salary'),
       meta: {
         title: '工资',
@@ -177,12 +170,13 @@ export const asyncRoutes = [
       }
     }]
   },
+
   {
     path: '/social',
+    name: 'social',
     component: Layout,
     children: [{
       path: '',
-      name: 'social',
       component: () => import('@/views/social'),
       meta: {
         title: '社保',
@@ -191,7 +185,6 @@ export const asyncRoutes = [
     }]
   }
 ]
-
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),

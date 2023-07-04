@@ -1,35 +1,43 @@
-import router from '@/router'
+import router, { asyncRoutes } from '@/router'
 import store from '@/store'
 import defaultSettings from '@/settings'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
 const whiteList = ['/login', '/404']
-// 前置路由守卫
+
 router.beforeEach(async(to, from, next) => {
-  NProgress.start()
+  NProgress.start()// 开启进度
   const token = store.getters.token
   if (token) {
     if (to.path === '/login') {
       next('/')
     } else {
-      await store.dispatch('user/getInfo')
+      if (!store.getters.name) {
+        const res = await store.dispatch('user/getInfo')
+        console.log(res.roles.menus)
+        console.log(asyncRoutes)
+        const arr = asyncRoutes.filter(item => res.roles.menus.includes(item.name))
+        store.commit('user/updateRoutes', arr)
+        console.log(arr)
+        // 动态添加路由规则
+        router.addRoutes([...arr, { path: '*', redirect: '/404', hidden: true }])
+        next(to.path)// hack方法 确保addRoutes已完成
+      }
       next()
     }
   } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      if (!store.getters.name) {
-        await store.dispatch('user/getInfo')
-      }
+    if (whiteList.includes(to.path)) {
       next()
     } else {
-      next(`/login?redirect=${to.path}`)
+      next('/login')
     }
   }
-  NProgress.done()
+  NProgress.done() // 避免用户登录之后再次跳转登录时进度条的bug
 })
+
 // 后置路由守卫
 router.afterEach((to) => {
-  NProgress.done()
+  NProgress.done() // 关闭进度
   if (to.meta.title) {
     document.title = defaultSettings.title + '-' + to.meta.title
   } else {

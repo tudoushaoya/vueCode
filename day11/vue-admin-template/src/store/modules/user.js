@@ -3,13 +3,15 @@
 // 异步： 组件 dispatch -> actions -> commit -> mutations -> state
 import { login, getInfo } from '@/api/user'
 import { setToken, getToken, removeToken } from '@/utils/auth'
+import { constantRoutes, resetRouter } from '@/router'
 export default {
   // 开启命名空间
   namespaced: true,
   // 放数据的地方
   state: () => ({
     token: getToken() || '',
-    userinfo: {}
+    userinfo: {},
+    routes: constantRoutes
   }),
   // 相当于组件中计算属性
   getters: {},
@@ -22,6 +24,9 @@ export default {
     },
     setUserInfo(state, payload) {
       state.userinfo = payload
+    },
+    updateRoutes(state, payload) {
+      state.routes = [...constantRoutes, ...payload]
     }
   },
   // 写异步的ajax的地方
@@ -42,6 +47,7 @@ export default {
       context.commit('setToken', '')
       context.commit('setUserInfo', {})
       removeToken()
+      resetRouter()
     }
   }
 }
